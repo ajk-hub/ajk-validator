@@ -1,23 +1,29 @@
 package io.ashimjk.validator;
 
+import io.ashimjk.validator.contracts.DataValidator;
+import io.ashimjk.validator.result.ValidationResult;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
+
+import static io.ashimjk.validator.constant.ValidatorConstants.MUST_BE_PROVIDED;
 
 @RequiredArgsConstructor
 public class Validators<T> {
 
     private final T object;
-    private String fieldName = "";
+    private String fieldName = "value";
 
-    private final List<CustomValidator<T>> customValidators = new ArrayList<>();
+    private final List<Supplier<DataValidator<T>>> customValidators = new ArrayList<>();
 
     public static <T> Validators<T> of(T object) {
         return new Validators<>(object);
     }
 
-    public Validators<T> validate(CustomValidator<T> validator) {
+    public Validators<T> validate(Supplier<DataValidator<T>> validator) {
         customValidators.add(validator);
         return this;
     }
@@ -28,13 +34,20 @@ public class Validators<T> {
     }
 
     public ValidationResult doValidate() {
-        String fieldName = getFieldName();
+        return Optional.ofNullable(object)
+                       .map(this::executeValidator)
+                       .orElseGet(() -> ValidationResult.of(fieldName, MUST_BE_PROVIDED));
+    }
+
+    private ValidationResult executeValidator(T object) {
+        String parentFieldName = buildFieldName();
         return customValidators.stream()
-                               .map(v -> v.process(fieldName, object))
+                               .map(Supplier::get)
+                               .map(v -> v.process(parentFieldName, object))
                                .reduce(new ValidationResult(), ValidationResult::with);
     }
 
-    private String getFieldName() {
+    private String buildFieldName() {
         return fieldName.isBlank() ? fieldName : fieldName.concat(".");
     }
 

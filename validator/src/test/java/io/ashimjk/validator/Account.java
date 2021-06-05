@@ -11,4 +11,16 @@ public class Account {
     private BigDecimal amount;
     private String currency;
 
+    public Account() {
+        this("");
+    }
+
+    public Account(String name) {
+        this.name = name;
+    }
+
+    public Account(long amount) {
+        this.amount = BigDecimal.valueOf(amount);
+    }
+
 }

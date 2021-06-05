@@ -1,4 +1,4 @@
-package io.ashimjk.validator;
+package io.ashimjk.validator.result;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package io.ashimjk.validator;
+package io.ashimjk.validator.result;
 
 import lombok.Getter;
 
@@ -12,6 +12,12 @@ public class ValidationResult {
     public ValidationResult with(ValidationResult result) {
         this.violations.addAll(result.getViolations());
         return this;
+    }
+
+    public static ValidationResult of(String violator, String message) {
+        ValidationResult validationResult = new ValidationResult();
+        validationResult.addViolation(violator, message);
+        return validationResult;
     }
 
     public void addViolation(String violator, String message) {
