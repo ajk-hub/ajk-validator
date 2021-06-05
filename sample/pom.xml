@@ -6,7 +6,7 @@
 
     <parent>
         <artifactId>ajk-validator</artifactId>
-        <groupId>io.ashimjk</groupId>
+        <groupId>com.github.ajkhub</groupId>
         <version>1.0.0</version>
     </parent>
 
@@ -14,7 +14,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.ashimjk</groupId>
+            <groupId>com.github.ajkhub</groupId>
             <artifactId>validator</artifactId>
             <version>${project.version}</version>
         </dependency>

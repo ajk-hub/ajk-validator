@@ -6,7 +6,7 @@
 
     <parent>
         <artifactId>ajk-validator</artifactId>
-        <groupId>io.ashimjk</groupId>
+        <groupId>com.github.ajkhub</groupId>
         <version>1.0.0</version>
     </parent>
 
